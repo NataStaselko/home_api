@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres:16
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data:delegated
+      - ./backups:/backups:delegated
+    environment:
+      POSTGRES_DB: ${DB_CONFIG__DB__NAME}
+      POSTGRES_USER: ${DB_CONFIG__DB__USER}
+      POSTGRES_PASSWORD: ${DB_CONFIG__DB__PASSWORD}
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  redis:
+    image: eqalpha/keydb
+    restart: unless-stopped
+    volumes:
+      - ./.data/redis:/data
+    ports:
+      - "6379:6379"
