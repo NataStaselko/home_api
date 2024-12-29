@@ -23,7 +23,6 @@ setuptools = "^75.6.0"
 redis = "^5.2.1"
 async-timeout = "^5.0.1"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

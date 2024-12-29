@@ -2,6 +2,25 @@ from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+class RedisStreamConfig(BaseModel):
+    stream: str = "add_stream"
+    consumer: str = "add_consumer"
+    group: str = "add_group"
+    maxlen: int = 1000
+
+
+class MessageLinksConfig(RedisStreamConfig):
+    stream: str = "message_links_stream"
+    consumer: str = "message_links_consumer"
+    group: str = "message_links_group"
+
+
+class RedisConfig(BaseModel):
+    url: str = "redis://localhost:6379"
+    add_stream: RedisStreamConfig = RedisStreamConfig()
+    message_links: MessageLinksConfig = MessageLinksConfig()
+
+
 class RunConfig(BaseModel):
     port: int = 8000
     host: str = "0.0.0.0"
@@ -29,6 +48,7 @@ class Settings(BaseSettings):
         env_prefix="APP_CONFIG__",
         extra="ignore",
     )
+    redis: RedisConfig = RedisConfig()
     db: DatabaseConfig
     run: RunConfig = RunConfig()
     project: ProjectConfig = ProjectConfig()

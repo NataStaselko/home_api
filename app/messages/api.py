@@ -5,27 +5,26 @@ from app.messages.dependencies import get_messages_service
 from app.messages.services import MessageService
 from app.messages.schemas import MessagesCreate
 from app.messages.models import MessageModel
-import redis.asyncio as redis
+from app.redis_producer.producer import producer_message
+from app.redis_producer.schemas import MessageAddSchema
 
-redis_url = "redis://localhost:6379"
 
 router = APIRouter()
-
-
-async def get_redis() -> redis.Redis:
-    print(redis_url)
-    return await redis.from_url(redis_url, decode_responses=True)
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)
 async def create_message(
         message: MessagesCreate,
-        service: MessageService = Depends(get_messages_service),
-        redis: redis.Redis = Depends(get_redis)):
+        service: MessageService = Depends(get_messages_service)):
+    message_schema  = MessageAddSchema(
+        message_id=message.message_id,
+        from_user_id=message.from_user_id,
+        chat_id=message.chat_id,
+        text=message.text)
+    await producer_message.add(message_schema)
 
     saved_message = await service.create(**(message.dict()))
-    await redis.publish("message_channel", f'{message.text}')
-    await redis.publish("chat_channel", f'{message.chat_id}')
+
     return saved_message
 
 

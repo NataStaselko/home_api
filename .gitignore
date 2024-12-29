@@ -1,0 +1,82 @@
+# Python-specific ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.manifest
+*.spec
+*.log
+
+# Virtual environments
+env/
+venv/
+*.venv
+*.virtualenv
+
+# PyCharm-specific ignores
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Byte-compiled files
+*.swp
+*.swo
+*~
+
+# OS-specific ignores
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Redis dumps
+dump.rdb
+appendonly.aof
+
+# PostgreSQL database files
+pgdata/
+
+# Logs and debugging
+*.log
+logs/
+debug.log
+test-results/
+*.coverage
+.coverage.*
+
+# Coverage reports
+htmlcov/
+.coverage
+.cache
+
+# Dependencies
+pip-log.txt
+pip-delete-this-directory.txt
+poetry.lock
+*.lock
+
+# Environment variable files
+.env
+.env.*
+
+# Test artifacts
+.tox/
+.pytest_cache/
+.nox/
+.mypy_cache/
+coverage.xml
+*.pytest_cache/
+.cache/
+
+# Docker-specific ignores
+Dockerfile
+.dockerignore
